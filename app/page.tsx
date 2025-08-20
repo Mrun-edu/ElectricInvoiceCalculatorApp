@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Zap } from "lucide-react"
 import { hesaplaElektrikFaturasi } from "../utils/calculations"
 import InputForm from "../components/InputForm"
@@ -11,25 +11,13 @@ export default function ElektrikFaturasi() {
   const [sonEndeks, setSonEndeks] = useState("")
   const [birimFiyat, setBirimFiyat] = useState("2.85")
   const [fatura, setFatura] = useState(null)
-
-  useEffect(() => {
-    if (ilkEndeks && sonEndeks && birimFiyat) {
-      try {
-        const faturaDetay = hesaplaElektrikFaturasi(ilkEndeks, sonEndeks, birimFiyat)
-        setFatura(faturaDetay)
-      } catch (error) {
-        // Hata durumunda faturayı temizle
-        setFatura(null)
-      }
-    } else {
-      setFatura(null)
-    }
-  }, [ilkEndeks, sonEndeks, birimFiyat])
+  const [faturaGoster, setFaturaGoster] = useState(false)
 
   const hesaplaFatura = () => {
     try {
       const faturaDetay = hesaplaElektrikFaturasi(ilkEndeks, sonEndeks, birimFiyat)
       setFatura(faturaDetay)
+      setFaturaGoster(true)
     } catch (error) {
       alert(error.message)
     }
@@ -40,6 +28,7 @@ export default function ElektrikFaturasi() {
     setSonEndeks("")
     setBirimFiyat("2.85")
     setFatura(null)
+    setFaturaGoster(false)
   }
 
   return (
@@ -60,22 +49,23 @@ export default function ElektrikFaturasi() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          <InputForm
-            ilkEndeks={ilkEndeks}
-            setIlkEndeks={setIlkEndeks}
-            sonEndeks={sonEndeks}
-            setSonEndeks={setSonEndeks}
-            birimFiyat={birimFiyat}
-            setBirimFiyat={setBirimFiyat}
-            onHesapla={hesaplaFatura}
-            onTemizle={temizle}
-          />
+        <div className={`${faturaGoster ? "grid lg:grid-cols-2 gap-8" : "flex justify-center"}`}>
+          <div className={`${!faturaGoster ? "max-w-md" : ""}`}>
+            <InputForm
+              ilkEndeks={ilkEndeks}
+              setIlkEndeks={setIlkEndeks}
+              sonEndeks={sonEndeks}
+              setSonEndeks={setSonEndeks}
+              birimFiyat={birimFiyat}
+              setBirimFiyat={setBirimFiyat}
+              onHesapla={hesaplaFatura}
+              onTemizle={temizle}
+            />
+          </div>
 
-          <InvoiceDetails fatura={fatura} />
+          {faturaGoster && <InvoiceDetails fatura={fatura} />}
         </div>
       </div>
     </div>
   )
 }
-
