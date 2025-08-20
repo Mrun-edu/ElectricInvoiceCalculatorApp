@@ -50,7 +50,7 @@ export default function ElektrikFaturasi() {
         </div>
 
         <div className={`${faturaGoster ? "grid lg:grid-cols-2 gap-8" : "flex justify-center"}`}>
-          <div className={`${!faturaGoster ? "max-w-md" : ""}`}>
+          <div className={`${!faturaGoster ? "w-180" : ""}`}>
             <InputForm
               ilkEndeks={ilkEndeks}
               setIlkEndeks={setIlkEndeks}
