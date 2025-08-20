@@ -5,6 +5,7 @@ import { Zap } from "lucide-react"
 import { hesaplaElektrikFaturasi } from "../utils/calculations"
 import InputForm from "../components/InputForm"
 import InvoiceDetails from "../components/InvoiceDetails"
+import InfoBubble from "@/components/InfoBubble"
 
 export default function ElektrikFaturasi() {
   const [ilkEndeks, setIlkEndeks] = useState("")
@@ -33,6 +34,9 @@ export default function ElektrikFaturasi() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white via-sky-50 to-blue-100">
+
+      <InfoBubble />
+
       <div className="max-w-6xl mx-auto p-4 space-y-8">
         {/* Header */}
         <div className="text-center py-12">
