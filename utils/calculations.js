@@ -23,7 +23,10 @@ export const hesaplaElektrikFaturasi = (ilkEndeks, sonEndeks, birimFiyat) => {
     reaktifCeza = tuketimBedeli * 0.15
   }
 
-  const toplamTutar = tuketimBedeli + energiFonu + kdv + reaktifCeza
+  //Dağıtım bedeli (vergisiz tüketim bedeli * 0.78)
+  const dagitimBedeli = tuketimBedeli * 0.78
+
+  const toplamTutar = tuketimBedeli + energiFonu + kdv + dagitimBedeli + reaktifCeza
 
   return {
     ilkEndeks: ilk,
@@ -34,6 +37,7 @@ export const hesaplaElektrikFaturasi = (ilkEndeks, sonEndeks, birimFiyat) => {
     energiFonu,
     kdv,
     reaktifCeza,
+    dagitimBedeli,
     toplamTutar,
   }
 }
